@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"strconv"
 	"time"
 
 	docs "github.com/ahnsv/vectorman/docs"
@@ -12,15 +11,6 @@ import (
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
-// On-call personnel entity
-type OnCallPersonnel struct {
-	ID           int    `json:"id" binding:"required"`
-	Name         string `json:"name" binding:"required"`
-	Phone        string `json:"phone" binding:"required"`
-	Email        string `json:"email" binding:"required"`
-	NotifyMethod string `json:"notify_method" binding:"required"`
-}
 
 // Incident entity
 type Incident struct {
@@ -44,7 +34,7 @@ type Notification struct {
 // On-call schedule aggregate root
 type OnCallScheduleRoot struct {
 	schedule  *entities.OnCallSchedule
-	personnel []*OnCallPersonnel
+	personnel []*entities.OnCallPersonnel
 }
 
 // Incident aggregate root
@@ -57,9 +47,6 @@ type NotificationRoot struct {
 	notification *Notification
 }
 
-var onCallSchedules []entities.OnCallSchedule
-var onCallPersonnel []OnCallPersonnel
-var incidents []Incident
 var notifications []Notification
 
 func main() {
@@ -86,63 +73,16 @@ func main() {
 			eg.PUT("/personnel/:id", v1.UpdateOncallPersonnel)
 			eg.DELETE("/personnel/:id", v1.DeleteOncallPersonnel)
 		}
+
+		incident := apiv1.Group("/incidents")
+		{
+			incident.GET("/", v1.GetIncidents)
+			incident.GET("/:id", v1.GetIncidentByID)
+			incident.POST("/", v1.CreateIncident)
+			incident.PUT("/:id", v1.UpdateIncident)
+			incident.DELETE("/:id", v1.DeleteIncident)
+		}
 	}
-	// Define endpoint for creating a new incident
-	r.POST("/incidents", func(c *gin.Context) {
-		var newIncident Incident
-		if err := c.ShouldBindJSON(&newIncident); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		newIncident.ID = len(incidents) + 1
-		newIncident.Status = "Open"
-		incidents = append(incidents, newIncident)
-		c.JSON(http.StatusCreated, newIncident)
-	})
-
-	// Define endpoint for retrieving a specific incident by ID
-	r.GET("/incidents/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		for _, incident := range incidents {
-			if strconv.Itoa(incident.ID) == id {
-				c.JSON(http.StatusOK, incident)
-				return
-			}
-		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "Incident not found"})
-	})
-
-	// Define endpoint for updating an existing incident
-	r.PUT("/incidents/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		for i, incident := range incidents {
-			if strconv.Itoa(incident.ID) == id {
-				var updatedIncident Incident
-				if err := c.ShouldBindJSON(&updatedIncident); err != nil {
-					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-					return
-				}
-				updatedIncident.ID = incident.ID
-				incidents[i] = updatedIncident
-				c.JSON(http.StatusOK, updatedIncident)
-				return
-			}
-		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "Incident not found"})
-	})
-
-	// Define endpoint for deleting an existing incident
-	r.DELETE("/incidents/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		for i, incident := range incidents {
-			if strconv.Itoa(incident.ID) == id {
-				incidents = append(incidents[:i], incidents[i+1:]...)
-				c.JSON(http.StatusOK, gin.H{"status": "OK"})
-				return
-			}
-		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "Incident not found"})
-	})
 
 	r.GET("/notification", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
