@@ -1,10 +1,9 @@
 package main
 
 import (
-	"github.com/ahnsv/vectorman/router"
+	"github.com/ahnsv/vectorman/cli"
 )
 
 func main() {
-	vectormanRouter := router.CreateRouter()
-	vectormanRouter.Run()
+	cli.Execute()
 }

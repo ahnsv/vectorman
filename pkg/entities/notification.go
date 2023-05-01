@@ -11,3 +11,9 @@ type Notification struct {
 	NotifyMethod string    `json:"notify_method" binding:"required"`
 	Timestamp    time.Time `json:"timestamp" binding:"required"`
 }
+
+// Send the notification
+func (n *Notification) Send() {
+	// send the notification
+	println("send the notification")
+}

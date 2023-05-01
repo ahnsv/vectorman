@@ -7,3 +7,19 @@ type OnCallPersonnel struct {
 	Email        string `json:"email" binding:"required"`
 	NotifyMethod string `json:"notify_method" binding:"required"`
 }
+
+var onCallPersonnel []OnCallPersonnel
+
+func (p *OnCallPersonnel) Create() OnCallPersonnel {
+	onCallPersonnel = append(onCallPersonnel, *p)
+	return *p
+}
+
+func (p *OnCallPersonnel) GetByID(id int) OnCallPersonnel {
+	for i := range onCallPersonnel {
+		if onCallPersonnel[i].ID == id {
+			return onCallPersonnel[i]
+		}
+	}
+	return OnCallPersonnel{}
+}

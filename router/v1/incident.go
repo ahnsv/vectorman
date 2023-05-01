@@ -13,9 +13,9 @@ var incidents []entities.Incident
 
 // @Summary Get all incidents
 // @Produce json
-// @Success 200 {object} string
-// @Failure 400 {object} string
-// @Router /api/v1/incident [get]
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Router /api/v1/incidents [get]
 func GetIncidents(c *gin.Context) {
 	appG := app.Gin{C: c}
 	appG.Response(http.StatusOK, 200, incidents)
@@ -24,9 +24,9 @@ func GetIncidents(c *gin.Context) {
 // @Summary Get incident by ID
 // @Produce json
 // @Param id path int true "ID"
-// @Success 200 {object} string
-// @Failure 400 {object} string
-// @Router /api/v1/incident/{id} [get]
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Router /api/v1/incidents/{id} [get]
 func GetIncidentByID(c *gin.Context) {
 	appG := app.Gin{C: c}
 	id, err := strconv.Atoi(c.Param("id"))
@@ -45,10 +45,10 @@ func GetIncidentByID(c *gin.Context) {
 
 // @Summary Create a new incident
 // @Produce json
-// @Param incident body Incident true "Incident"
-// @Success 200 {object} string
-// @Failure 400 {object} string
-// @Router /api/v1/incident [post]
+// @Param request body entities.Incident true "Incident"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Router /api/v1/incidents [post]
 func CreateIncident(c *gin.Context) {
 	appG := app.Gin{C: c}
 	var newIncident entities.Incident
@@ -64,10 +64,10 @@ func CreateIncident(c *gin.Context) {
 // @Summary Update an incident
 // @Produce json
 // @Param id path int true "ID"
-// @Param incident body Incident true "Incident"
-// @Success 200 {object} string
-// @Failure 400 {object} string
-// @Router /api/v1/incident/{id} [put]
+// @Param request body entities.Incident true "Incident"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Router /api/v1/incidents/{id} [put]
 func UpdateIncident(c *gin.Context) {
 	appG := app.Gin{C: c}
 	id, err := strconv.Atoi(c.Param("id"))
@@ -94,9 +94,9 @@ func UpdateIncident(c *gin.Context) {
 // @Summary Delete an incident
 // @Produce json
 // @Param id path int true "ID"
-// @Success 200 {object} string
-// @Failure 400 {object} string
-// @Router /api/v1/incident/{id} [delete]
+// @Success 204 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Router /api/v1/incidents/{id} [delete]
 func DeleteIncident(c *gin.Context) {
 	appG := app.Gin{C: c}
 	id, err := strconv.Atoi(c.Param("id"))
@@ -107,7 +107,7 @@ func DeleteIncident(c *gin.Context) {
 	for i := range incidents {
 		if incidents[i].ID == id {
 			incidents = append(incidents[:i], incidents[i+1:]...)
-			appG.Response(http.StatusOK, 200, gin.H{"status": "OK"})
+			appG.Response(http.StatusAccepted, 204, gin.H{"status": "OK"})
 			return
 		}
 	}

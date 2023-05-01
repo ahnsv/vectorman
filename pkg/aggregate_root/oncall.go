@@ -1,4 +1,4 @@
-package aggregateroot
+package aggregate_root
 
 import "github.com/ahnsv/vectorman/pkg/entities"
 
