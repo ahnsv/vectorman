@@ -5,19 +5,13 @@ import (
 	"strconv"
 	"time"
 
+	docs "github.com/ahnsv/vectorman/docs"
+	"github.com/ahnsv/vectorman/pkg/entities"
+	v1 "github.com/ahnsv/vectorman/router/v1"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
-// On-call schedule entity
-type OnCallSchedule struct {
-	ID       int       `json:"id"`
-	Start    time.Time `json:"start" binding:"required"`
-	End      time.Time `json:"end" binding:"required"`
-	Rotation []int     `json:"rotation" binding:"required"`
-	TimeZone string    `json:"timezone" binding:"required"`
-}
 
 // On-call personnel entity
 type OnCallPersonnel struct {
@@ -49,7 +43,7 @@ type Notification struct {
 
 // On-call schedule aggregate root
 type OnCallScheduleRoot struct {
-	schedule  *OnCallSchedule
+	schedule  *entities.OnCallSchedule
 	personnel []*OnCallPersonnel
 }
 
@@ -63,7 +57,7 @@ type NotificationRoot struct {
 	notification *Notification
 }
 
-var onCallSchedules []OnCallSchedule
+var onCallSchedules []entities.OnCallSchedule
 var onCallPersonnel []OnCallPersonnel
 var incidents []Incident
 var notifications []Notification
@@ -71,62 +65,23 @@ var notifications []Notification
 func main() {
 	r := gin.Default()
 
-	// Define endpoint for creating a new On-call schedule
-	r.POST("/oncall/schedule", func(c *gin.Context) {
-		var newSchedule OnCallSchedule
-		err := c.BindJSON(&newSchedule)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
-			return
-		}
-		onCallSchedules = append(onCallSchedules, newSchedule)
-		c.JSON(http.StatusCreated, gin.H{"status": "OK"})
-	})
+	docs.SwaggerInfo.BasePath = ""
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:8080"
+	docs.SwaggerInfo.Title = "Vectorman API"
+	docs.SwaggerInfo.Description = "Vectorman API"
 
-	// Define endpoint for updating an existing On-call schedule
-	r.PUT("/oncall/schedule/:id", func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-			return
+	apiv1 := r.Group("/api/v1")
+	{
+		eg := apiv1.Group("/oncall")
+		{
+			eg.GET("/schedule", v1.GetOncallSchedule)
+			eg.GET("/schedule/:id", v1.GetOncallScheduleByID)
+			eg.POST("/schedule", v1.CreateOncallSchedule)
+			eg.PUT("/schedule/:id", v1.UpdateOncallSchedule)
+			eg.DELETE("/schedule/:id", v1.DeleteOncallSchedule)
 		}
-		var updatedSchedule OnCallSchedule
-		err = c.BindJSON(&updatedSchedule)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
-			return
-		}
-		for i := range onCallSchedules {
-			if onCallSchedules[i].ID == id {
-				onCallSchedules[i] = updatedSchedule
-				c.JSON(http.StatusOK, gin.H{"status": "OK"})
-				return
-			}
-		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "Schedule not found"})
-	})
-
-	// Define endpoint for getting a list of all On-call schedules
-	r.GET("/oncall/schedule", func(c *gin.Context) {
-		c.JSON(http.StatusOK, onCallSchedules)
-	})
-
-	// Define endpoint for getting a specific On-call schedule by ID
-	r.GET("/oncall/schedule/:id", func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-			return
-		}
-		for _, schedule := range onCallSchedules {
-			if schedule.ID == id {
-				c.JSON(http.StatusOK, schedule)
-				return
-			}
-		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "Schedule not found"})
-	})
-
+	}
 	r.POST("/oncall/personnel", func(c *gin.Context) {
 		var newPersonnel OnCallPersonnel
 		err := c.BindJSON(&newPersonnel)
