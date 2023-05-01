@@ -13,8 +13,8 @@ var notifications []entities.Notification
 
 // @Summary Get all notifications
 // @Produce json
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/notifications [get]
 func GetNotifications(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -24,8 +24,8 @@ func GetNotifications(c *gin.Context) {
 // @Summary Get notification by ID
 // @Produce json
 // @Param id path int true "ID"
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/notifications/{id} [get]
 func GetNotificationByID(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -45,8 +45,8 @@ func GetNotificationByID(c *gin.Context) {
 
 // @Summary Create a new notification
 // @Produce json
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/notifications [post]
 func CreateNotification(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -62,8 +62,8 @@ func CreateNotification(c *gin.Context) {
 // @Summary Update a notification
 // @Produce json
 // @Param id path int true "ID"
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/notifications/{id} [put]
 func UpdateNotification(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -91,8 +91,8 @@ func UpdateNotification(c *gin.Context) {
 // @Summary Delete a notification
 // @Produce json
 // @Param id path int true "ID"
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/notifications/{id} [delete]
 func DeleteNotification(c *gin.Context) {
 	appG := app.Gin{C: c}

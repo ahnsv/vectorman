@@ -14,6 +14,9 @@ type Notification struct {
 
 // Send the notification
 func (n *Notification) Send() {
+	// get personnel phone number and email
+	println("get personnel phone number and email")
+
 	// send the notification
 	println("send the notification")
 }

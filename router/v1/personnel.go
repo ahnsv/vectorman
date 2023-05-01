@@ -14,8 +14,8 @@ var onCallPersonnel []entities.OnCallPersonnel
 
 // @Summary Get all on-call personnel
 // @Produce json
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/oncall/personnel [get]
 func CreateOncallPersonnel(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -31,8 +31,8 @@ func CreateOncallPersonnel(c *gin.Context) {
 
 // @Summary Get all on-call personnel
 // @Produce json
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/oncall/personnel [get]
 func GetOncallPersonnel(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -42,8 +42,8 @@ func GetOncallPersonnel(c *gin.Context) {
 // @Summary Get on-call personnel by ID
 // @Produce json
 // @Param id path int true "ID"
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/oncall/personnel/{id} [get]
 func GetOncallPersonnelByID(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -64,8 +64,8 @@ func GetOncallPersonnelByID(c *gin.Context) {
 // @Summary Delete on-call personnel by ID
 // @Produce json
 // @Param id path int true "ID"
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/oncall/personnel/{id} [put]
 func UpdateOncallPersonnel(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -93,8 +93,8 @@ func UpdateOncallPersonnel(c *gin.Context) {
 // @Summary Delete on-call personnel by ID
 // @Produce json
 // @Param id path int true "ID"
-// @Success 200 {object} string
-// @Failure 400 {object} string
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
 // @Router /api/v1/oncall/personnel/{id} [delete]
 func DeleteOncallPersonnel(c *gin.Context) {
 	appG := app.Gin{C: c}

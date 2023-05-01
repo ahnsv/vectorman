@@ -136,11 +136,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Get all notifications
     post:
       produces:
@@ -149,11 +149,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Create a new notification
   /api/v1/notifications/{id}:
     delete:
@@ -169,11 +169,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Delete a notification
     get:
       parameters:
@@ -188,11 +188,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Get notification by ID
     put:
       parameters:
@@ -207,11 +207,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Update a notification
   /api/v1/oncall/personnel:
     get:
@@ -221,11 +221,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Get all on-call personnel
   /api/v1/oncall/personnel/{id}:
     delete:
@@ -241,11 +241,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Delete on-call personnel by ID
     get:
       parameters:
@@ -260,11 +260,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Get on-call personnel by ID
     put:
       parameters:
@@ -279,11 +279,11 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/app.Response'
       summary: Delete on-call personnel by ID
   /api/v1/oncall/schedule:
     get:
