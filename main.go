@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"time"
 
 	docs "github.com/ahnsv/vectorman/docs"
@@ -11,15 +10,6 @@ import (
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
-// Incident entity
-type Incident struct {
-	ID          int       `json:"id" binding:"required"`
-	Severity    string    `json:"severity" binding:"required"` // low, medium, high
-	Description string    `json:"description" binding:"required"`
-	Status      string    `json:"status" binding:"required"` // open, closed
-	Timestamp   time.Time `json:"timestamp" binding:"required"`
-}
 
 // Notification entity
 type Notification struct {
@@ -82,24 +72,16 @@ func main() {
 			incident.PUT("/:id", v1.UpdateIncident)
 			incident.DELETE("/:id", v1.DeleteIncident)
 		}
+
+		notification := apiv1.Group("/notifications")
+		{
+			notification.GET("/", v1.GetNotifications)
+			notification.GET("/:id", v1.GetNotificationByID)
+			notification.POST("/", v1.CreateNotification)
+			notification.PUT("/:id", v1.UpdateNotification)
+			notification.DELETE("/:id", v1.DeleteNotification)
+		}
 	}
-
-	r.GET("/notification", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "notifications",
-		})
-	})
-
-	r.GET("/notification/personnel", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "notification personnels",
-		})
-	})
-	r.GET("/notification/incident", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "incidents",
-		})
-	})
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
