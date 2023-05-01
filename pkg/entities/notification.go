@@ -1,6 +1,9 @@
 package entities
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // Notification entity
 type Notification struct {
@@ -16,7 +19,12 @@ type Notification struct {
 func (n *Notification) Send() {
 	// get personnel phone number and email
 	println("get personnel phone number and email")
+	personnel := GetOncallPersonnelByID(n.PersonnelID)
+	if personnel == (OnCallPersonnel{}) {
+		println("personnel not found")
+		return
+	}
 
 	// send the notification
-	println("send the notification")
+	fmt.Printf("send the notification %s to %s:%s:%s", n.Severity, personnel.Name, personnel.NotifyMethod, personnel.Phone)
 }

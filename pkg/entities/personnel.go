@@ -15,7 +15,7 @@ func (p *OnCallPersonnel) Create() OnCallPersonnel {
 	return *p
 }
 
-func (p *OnCallPersonnel) GetByID(id int) OnCallPersonnel {
+func GetOncallPersonnelByID(id int) OnCallPersonnel {
 	for i := range onCallPersonnel {
 		if onCallPersonnel[i].ID == id {
 			return onCallPersonnel[i]

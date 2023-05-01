@@ -10,6 +10,6 @@ type IncidentRoot struct {
 // write a service of incident root to establish the business logic
 func (g *IncidentRoot) Escalate(severity string) IncidentRoot {
 	// escalate the incident
-	g.incident.Severity = severity
+	g.incident.Escalate(severity)
 	return *g
 }
