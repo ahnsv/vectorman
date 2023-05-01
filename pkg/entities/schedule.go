@@ -10,3 +10,16 @@ type OnCallSchedule struct {
 	Rotation []int     `json:"rotation" binding:"required"`
 	TimeZone string    `json:"timezone" binding:"required"`
 }
+
+var onCallSchedules []OnCallSchedule
+
+// Get current on-call schedule
+func GetCurrentOncallSchedule() OnCallSchedule {
+	// based on time.Now() and rotation, find the current on-call schedule
+	for i := range onCallSchedules {
+		if onCallSchedules[i].Start.Before(time.Now()) && onCallSchedules[i].End.After(time.Now()) {
+			return onCallSchedules[i]
+		}
+	}
+	return OnCallSchedule{}
+}

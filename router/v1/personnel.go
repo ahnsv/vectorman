@@ -14,9 +14,10 @@ var onCallPersonnel []entities.OnCallPersonnel
 
 // @Summary Get all on-call personnel
 // @Produce json
+// @Param data body entities.OnCallPersonnel true "On-call personnel"
 // @Success 200 {object} app.Response
 // @Failure 400 {object} app.Response
-// @Router /api/v1/oncall/personnel [get]
+// @Router /api/v1/oncall/personnel [post]
 func CreateOncallPersonnel(c *gin.Context) {
 	appG := app.Gin{C: c}
 	var newPersonnel entities.OnCallPersonnel
@@ -64,6 +65,7 @@ func GetOncallPersonnelByID(c *gin.Context) {
 // @Summary Delete on-call personnel by ID
 // @Produce json
 // @Param id path int true "ID"
+// @Param data body entities.OnCallPersonnel true "On-call personnel"
 // @Success 200 {object} app.Response
 // @Failure 400 {object} app.Response
 // @Router /api/v1/oncall/personnel/{id} [put]

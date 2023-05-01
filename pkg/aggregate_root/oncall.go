@@ -7,3 +7,7 @@ type OnCallScheduleRoot struct {
 	schedule  *entities.OnCallSchedule
 	personnel []*entities.OnCallPersonnel
 }
+
+func GetOncallPersonnel() OnCallScheduleRoot {
+	return OnCallScheduleRoot{}
+}

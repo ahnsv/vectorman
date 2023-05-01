@@ -27,6 +27,25 @@ definitions:
     - status
     - timestamp
     type: object
+  entities.OnCallPersonnel:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      notify_method:
+        type: string
+      phone:
+        type: string
+    required:
+    - email
+    - id
+    - name
+    - notify_method
+    - phone
+    type: object
 info:
   contact: {}
 paths:
@@ -227,6 +246,26 @@ paths:
           schema:
             $ref: '#/definitions/app.Response'
       summary: Get all on-call personnel
+    post:
+      parameters:
+      - description: On-call personnel
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entities.OnCallPersonnel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Get all on-call personnel
   /api/v1/oncall/personnel/{id}:
     delete:
       parameters:
@@ -273,6 +312,12 @@ paths:
         name: id
         required: true
         type: integer
+      - description: On-call personnel
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entities.OnCallPersonnel'
       produces:
       - application/json
       responses:

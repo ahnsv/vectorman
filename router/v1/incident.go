@@ -3,6 +3,7 @@ package v1
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/ahnsv/vectorman/pkg/app"
 	"github.com/ahnsv/vectorman/pkg/entities"
@@ -54,10 +55,22 @@ func CreateIncident(c *gin.Context) {
 	var newIncident entities.Incident
 	err := c.BindJSON(&newIncident)
 	if err != nil {
+		println(err.Error())
 		appG.Response(http.StatusBadRequest, 400, nil)
 		return
 	}
 	incidents = append(incidents, newIncident)
+
+	// create notification for new incident
+	var newNotification entities.Notification
+	newNotification.ID = len(notifications) + 1
+	newNotification.IncidentID = newIncident.ID
+	newNotification.PersonnelID = 1 // entities.GetCurrentOncallSchedule().Rotation[0]
+	newNotification.Severity = newIncident.Severity
+	newNotification.Timestamp = time.Now()
+
+	newNotification.Send()
+
 	appG.Response(http.StatusOK, 200, gin.H{"status": "OK"})
 }
 

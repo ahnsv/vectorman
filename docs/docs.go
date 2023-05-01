@@ -318,6 +318,37 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get all on-call personnel",
+                "parameters": [
+                    {
+                        "description": "On-call personnel",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.OnCallPersonnel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/v1/oncall/personnel/{id}": {
@@ -362,6 +393,15 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "On-call personnel",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.OnCallPersonnel"
+                        }
                     }
                 ],
                 "responses": {
@@ -582,6 +622,33 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "timestamp": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.OnCallPersonnel": {
+            "type": "object",
+            "required": [
+                "email",
+                "id",
+                "name",
+                "notify_method",
+                "phone"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "notify_method": {
+                    "type": "string"
+                },
+                "phone": {
                     "type": "string"
                 }
             }
