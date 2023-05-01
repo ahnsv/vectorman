@@ -27,18 +27,6 @@ type OnCallScheduleRoot struct {
 	personnel []*entities.OnCallPersonnel
 }
 
-// Incident aggregate root
-type IncidentRoot struct {
-	incident *Incident
-}
-
-// Notification aggregate root
-type NotificationRoot struct {
-	notification *Notification
-}
-
-var notifications []Notification
-
 func main() {
 	r := gin.Default()
 
