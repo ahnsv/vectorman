@@ -60,18 +60,18 @@ func main() {
 
 	apiv1 := r.Group("/api/v1")
 	{
-		eg := apiv1.Group("/oncall")
+		oncall := apiv1.Group("/oncall")
 		{
-			eg.GET("/schedule", v1.GetOncallSchedule)
-			eg.GET("/schedule/:id", v1.GetOncallScheduleByID)
-			eg.POST("/schedule", v1.CreateOncallSchedule)
-			eg.PUT("/schedule/:id", v1.UpdateOncallSchedule)
-			eg.DELETE("/schedule/:id", v1.DeleteOncallSchedule)
-			eg.GET("/personnel", v1.GetOncallPersonnel)
-			eg.GET("/personnel/:id", v1.GetOncallPersonnelByID)
-			eg.POST("/personnel", v1.CreateOncallPersonnel)
-			eg.PUT("/personnel/:id", v1.UpdateOncallPersonnel)
-			eg.DELETE("/personnel/:id", v1.DeleteOncallPersonnel)
+			oncall.GET("/schedule", v1.GetOncallSchedule)
+			oncall.GET("/schedule/:id", v1.GetOncallScheduleByID)
+			oncall.POST("/schedule", v1.CreateOncallSchedule)
+			oncall.PUT("/schedule/:id", v1.UpdateOncallSchedule)
+			oncall.DELETE("/schedule/:id", v1.DeleteOncallSchedule)
+			oncall.GET("/personnel", v1.GetOncallPersonnel)
+			oncall.GET("/personnel/:id", v1.GetOncallPersonnelByID)
+			oncall.POST("/personnel", v1.CreateOncallPersonnel)
+			oncall.PUT("/personnel/:id", v1.UpdateOncallPersonnel)
+			oncall.DELETE("/personnel/:id", v1.DeleteOncallPersonnel)
 		}
 
 		incident := apiv1.Group("/incidents")
