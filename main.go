@@ -80,71 +80,13 @@ func main() {
 			eg.POST("/schedule", v1.CreateOncallSchedule)
 			eg.PUT("/schedule/:id", v1.UpdateOncallSchedule)
 			eg.DELETE("/schedule/:id", v1.DeleteOncallSchedule)
+			eg.GET("/personnel", v1.GetOncallPersonnel)
+			eg.GET("/personnel/:id", v1.GetOncallPersonnelByID)
+			eg.POST("/personnel", v1.CreateOncallPersonnel)
+			eg.PUT("/personnel/:id", v1.UpdateOncallPersonnel)
+			eg.DELETE("/personnel/:id", v1.DeleteOncallPersonnel)
 		}
 	}
-	r.POST("/oncall/personnel", func(c *gin.Context) {
-		var newPersonnel OnCallPersonnel
-		err := c.BindJSON(&newPersonnel)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
-			return
-		}
-		onCallPersonnel = append(onCallPersonnel, newPersonnel)
-		c.JSON(http.StatusCreated, gin.H{"status": "OK"})
-	})
-	r.GET("/oncall/personnel", func(c *gin.Context) {
-		c.JSON(http.StatusOK, onCallPersonnel)
-	})
-	r.PUT("/oncall/personnel/:id", func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-			return
-		}
-		var updatedPersonnel OnCallPersonnel
-		err = c.BindJSON(&updatedPersonnel)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
-			return
-		}
-		for i := range onCallPersonnel {
-			if onCallPersonnel[i].ID == id {
-				onCallPersonnel[i] = updatedPersonnel
-				c.JSON(http.StatusOK, gin.H{"status": "OK"})
-				return
-			}
-		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "Personnel not found"})
-	})
-	r.GET("/oncall/personnel/:id", func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-			return
-		}
-		for _, personnel := range onCallPersonnel {
-			if personnel.ID == id {
-				c.JSON(http.StatusOK, personnel)
-				return
-			}
-		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "Personnel not found"})
-	})
-	r.DELETE("/oncall/personnel/:id", func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-			return
-		}
-		for i, personnel := range onCallPersonnel {
-			if personnel.ID == id {
-				onCallPersonnel = append(onCallPersonnel[:i], onCallPersonnel[i+1:]...)
-				c.JSON(http.StatusOK, gin.H{"status": "OK"})
-				return
-			}
-		}
-	})
-
 	// Define endpoint for creating a new incident
 	r.POST("/incidents", func(c *gin.Context) {
 		var newIncident Incident
